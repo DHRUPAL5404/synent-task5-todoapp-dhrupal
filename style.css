@@ -1,16 +1,53 @@
+/* 
+================================================================
+  TASKFLOW WEB APPLICATION STYLESHEET (PHASE 2)
+  Author: Dhrupal Godhani
+  Project: Task 5 - To-Do List Web Application
+  Focus: Modern Dark Theme, Interactive Checking & Deletions
+================================================================
+*/
+
 :root {
-    --color-bg-deep: #070a0e;
-    --color-bg-card: #0e131b;
-    --color-border: #1a2333;
-    --color-primary: #007bff;
-    --color-accent-cyan: #00f0ff;
-    --color-text-title: #ffffff;
-    --color-text-body: #8e9fae;
-    --color-text-muted: #52637a;
+    /* Color Palette */
+    --color-bg-deep: #070a0e;        /* Obsidian Dark Background */
+    --color-bg-card: #0e131b;        /* Slate Card Background */
+    --color-bg-hover: #151c27;       /* Card Hover State */
+    --color-border: #1a2333;         /* Dark Slate Border */
+    --color-border-hover: #00f0ff;   /* Cyber Cyan Accent Border */
+    
+    --color-primary: #007bff;        /* Cyber Blue */
+    --color-primary-rgb: 0, 123, 255;
+    
+    --color-accent-cyan: #00f0ff;    /* Cyber Cyan */
+    --color-accent-cyan-rgb: 0, 240, 255;
+    
+    --color-accent-purple: #7000ff;  /* Violet Glow */
+    --color-accent-purple-rgb: 112, 0, 255;
+    
+    --color-danger: #ff4a5a;         /* Vibrant Danger Red */
+    --color-danger-rgb: 255, 74, 90;
+    
+    --color-text-title: #ffffff;     /* Pure White */
+    --color-text-body: #8e9fae;      /* Soft Slate Grey */
+    --color-text-muted: #52637a;     /* Dark Muted Text */
+
+    /* Typography */
     --font-sans: 'Outfit', sans-serif;
     --font-mono: 'Space Grotesk', sans-serif;
+
+    /* Shadow and Glow effects */
+    --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.6);
+    --shadow-glow-blue: 0 0 20px rgba(var(--color-primary-rgb), 0.4);
+    --shadow-glow-cyan: 0 0 20px rgba(var(--color-accent-cyan-rgb), 0.4);
+
+    /* Transitions */
+    --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: 0.22s ease;
 }
 
+/* -------------------------------------------------------------
+   RESET & BASE ELEMENTS
+------------------------------------------------------------- */
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -21,6 +58,7 @@ html {
     background-color: var(--color-bg-deep);
     color: var(--color-text-body);
     font-family: var(--font-sans);
+    line-height: 1.6;
 }
 
 body {
@@ -29,72 +67,162 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 24px;
+    position: relative;
+    overflow-x: hidden;
 }
 
+/* Ambient glows in background */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.12;
+    z-index: -1;
+    pointer-events: none;
+}
+
+body::before {
+    top: 15%;
+    left: 15%;
+    background-color: var(--color-accent-cyan);
+}
+
+body::after {
+    bottom: 15%;
+    right: 15%;
+    background-color: var(--color-accent-purple);
+}
+
+/* -------------------------------------------------------------
+   APP CONTAINMENT & LAYOUT
+------------------------------------------------------------- */
 .todo-wrapper {
     width: 100%;
     max-width: 480px;
-    background-color: var(--color-bg-card);
+    background-color: rgba(14, 19, 27, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--color-border);
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 40px 30px;
+    box-shadow: var(--shadow-md);
+    transition: border-color var(--transition-slow);
 }
 
+.todo-wrapper:hover {
+    border-color: rgba(var(--color-primary-rgb), 0.2);
+}
+
+/* App Header */
 .app-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 36px;
 }
 
 .app-title {
     font-family: var(--font-mono);
     color: var(--color-text-title);
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
 }
 
-.accent-text {
-    color: var(--color-accent-cyan);
+.app-subtitle {
+    font-size: 0.88rem;
+    color: var(--color-text-body);
+    font-weight: 400;
+    letter-spacing: 0.5px;
 }
 
+/* Task Intake Form */
 .input-container {
     display: flex;
     gap: 12px;
-    margin-bottom: 30px;
+    margin-bottom: 36px;
 }
 
 #task-input {
     flex: 1;
-    background-color: var(--color-bg-deep);
+    background-color: rgba(7, 10, 14, 0.6);
     border: 1px solid var(--color-border);
     color: var(--color-text-title);
-    padding: 12px 18px;
-    border-radius: 8px;
+    padding: 14px 20px;
+    border-radius: 10px;
     outline: none;
+    font-size: 0.98rem;
+    font-family: var(--font-sans);
+    transition: all var(--transition-fast);
+}
+
+#task-input:focus {
+    border-color: var(--color-accent-cyan);
+    background-color: rgba(7, 10, 14, 0.85);
+    box-shadow: var(--shadow-glow-cyan);
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: all var(--transition-fast);
 }
 
 .btn-add {
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, rgba(0, 85, 255, 0.9) 100%);
     color: var(--color-text-title);
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
+    padding: 14px 28px;
+    border-radius: 10px;
     font-weight: 600;
-    cursor: pointer;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 15px rgba(var(--color-primary-rgb), 0.25);
+}
+
+.btn-add:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow-blue);
+    background: linear-gradient(135deg, #0088ff 0%, var(--color-primary) 100%);
+}
+
+.btn-add:active {
+    transform: translateY(0);
+}
+
+/* Tasks list area */
+.list-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 30px;
 }
 
 .list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+}
+
+.list-header h3 {
+    color: var(--color-text-title);
+    font-size: 1.15rem;
+    font-weight: 600;
 }
 
 .counter-badge {
     background-color: var(--color-bg-deep);
     color: var(--color-accent-cyan);
-    padding: 4px 12px;
-    border-radius: 12px;
+    border: 1px solid rgba(var(--color-accent-cyan-rgb), 0.2);
+    padding: 6px 14px;
+    border-radius: 30px;
     font-size: 0.8rem;
+    font-family: var(--font-mono);
     font-weight: 600;
 }
 
@@ -102,56 +230,157 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 4px;
 }
 
+/* Custom Scrollbar for task list */
+.task-list::-webkit-scrollbar {
+    width: 6px;
+}
+.task-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.task-list::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+}
+.task-list::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+}
+
+/* Task Cards Styling & Animation */
 .task-card {
-    background-color: var(--color-bg-deep);
+    background-color: rgba(7, 10, 14, 0.4);
     border: 1px solid var(--color-border);
-    padding: 14px 20px;
-    border-radius: 8px;
+    padding: 14px 18px;
+    border-radius: 12px;
     color: var(--color-text-title);
+    font-size: 0.96rem;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
+    transition: all var(--transition-fast);
+    animation: fadeInScale var(--transition-slow) forwards;
 }
 
+.task-card:hover {
+    background-color: var(--color-bg-hover);
+    border-color: rgba(var(--color-primary-rgb), 0.35);
+    transform: translateX(4px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Custom Check Toggle Button */
 .check-btn {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     border: 2px solid var(--color-border);
     background: transparent;
-    cursor: pointer;
-    color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.7rem;
+    color: transparent;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.check-btn:hover {
+    border-color: var(--color-accent-cyan);
+    background-color: rgba(var(--color-accent-cyan-rgb), 0.1);
+}
+
+.check-icon {
     font-weight: 800;
 }
 
+/* Delete Button */
 .delete-btn {
     background: transparent;
-    border: 1px solid #ff4a5a;
-    color: #ff4a5a;
-    padding: 6px 12px;
-    border-radius: 6px;
+    border: none;
+    outline: none;
+    color: var(--color-text-muted);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all var(--transition-fast);
     margin-left: auto;
+    flex-shrink: 0;
 }
 
+.trash-icon {
+    width: 18px;
+    height: 18px;
+    transition: color var(--transition-fast);
+}
+
+.delete-btn:hover {
+    background-color: rgba(var(--color-danger-rgb), 0.1);
+    color: var(--color-danger);
+}
+
+/* Task Content Text styling */
 .task-text {
     word-break: break-word;
+    font-weight: 400;
+    transition: all var(--transition-fast);
 }
 
-/* Completed Task State */
+/* Completed Task States */
+.task-card.completed {
+    border-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(7, 10, 14, 0.15);
+}
+
 .task-card.completed .check-btn {
     background-color: var(--color-accent-cyan);
     border-color: var(--color-accent-cyan);
     color: var(--color-bg-deep);
+    box-shadow: 0 0 10px rgba(var(--color-accent-cyan-rgb), 0.4);
 }
 
 .task-card.completed .task-text {
     text-decoration: line-through;
     color: var(--color-text-muted);
+    opacity: 0.6;
+}
+
+/* -------------------------------------------------------------
+   KEYFRAME ANIMATIONS
+------------------------------------------------------------- */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* -------------------------------------------------------------
+   RESPONSIVE DESIGN QUERY
+------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .todo-wrapper {
+        padding: 30px 20px;
+    }
+    .app-title {
+        font-size: 2rem;
+    }
+    .input-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+    #task-input, .btn-add {
+        width: 100%;
+    }
 }
