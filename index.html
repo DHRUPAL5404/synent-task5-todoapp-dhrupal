@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow | Minimal To-Do List Web Application</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="todo-wrapper">
+        <!-- App Header -->
+        <header class="app-header">
+            <h1 class="app-title">TASK<span class="accent-text">FLOW</span></h1>
+            <p class="app-subtitle">Streamline your daily development sprint</p>
+        </header>
+
+        <!-- Task Intake Panel -->
+        <section class="intake-section">
+            <div class="input-container">
+                <input type="text" id="task-input" placeholder="Add a new development task..." aria-label="New Task Input">
+                <button type="button" id="add-btn" class="btn btn-add">
+                    <span class="btn-text">Add Task</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Tasks Display Area -->
+        <section class="list-section">
+            <div class="list-header">
+                <h3>Active Tasks</h3>
+                <span id="task-counter" class="counter-badge">0 Tasks</span>
+            </div>
+            <div id="task-list" class="task-list">
+                <!-- Dynamic tasks will be rendered here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Script -->
+    <script defer src="script.js"></script>
+</body>
+</html>
